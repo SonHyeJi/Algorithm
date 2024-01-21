@@ -1,0 +1,19 @@
+-- 코드를 입력하세요
+SELECT CONCAT('/home/grep/src/',uf.BOARD_ID,'/',uf.FILE_ID,uf.FILE_NAME,uf.FILE_EXT) 
+as 'FILE_PATH'
+FROM USED_GOODS_BOARD ub
+JOIN USED_GOODS_FILE uf
+ON ub.BOARD_ID = uf.BOARD_ID
+WHERE ub.BOARD_ID = (
+    select BOARD_ID
+    FROM USED_GOODS_BOARD
+    # GROUP BY BOARD_ID
+    # HAVING MAX(ub.VIEWS)
+    ORDER BY VIEWS desc
+    limit 1
+)
+
+ORDER BY uf.FILE_ID desc
+
+ 
+
