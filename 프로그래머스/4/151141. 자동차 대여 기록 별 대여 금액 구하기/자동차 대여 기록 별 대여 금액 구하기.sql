@@ -1,0 +1,26 @@
+-- 코드를 입력하세요
+SELECT distinct(HISTORY_ID), 
+CASE 
+WHEN datediff(END_DATE,START_DATE)+1 between 7 and 29 THEN round(DAILY_FEE * (datediff(END_DATE,START_DATE)+1) * (SELECT (100 - DISCOUNT_RATE) / 100
+FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN 
+WHERE CAR_TYPE like '트럭' and DURATION_TYPE like '7일 이상'),0)
+ 
+WHEN datediff(END_DATE,START_DATE)+1 between 30 and 89 THEN
+round(DAILY_FEE * (datediff(END_DATE,START_DATE)+1) * (SELECT (100 - DISCOUNT_RATE) / 100 FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN 
+WHERE CAR_TYPE like '트럭' and DURATION_TYPE like '30일 이상'),0)
+
+WHEN datediff(END_DATE,START_DATE)+1 >= 90 THEN
+round(DAILY_FEE * (datediff(END_DATE,START_DATE)+1) * (SELECT (100 - DISCOUNT_RATE) / 100 FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN 
+WHERE CAR_TYPE like '트럭' and DURATION_TYPE like '90일 이상'),0)
+
+ELSE ROUND(DAILY_FEE * (datediff(END_DATE,START_DATE)+1),0)
+END AS FEE
+                                                                 
+                                                               
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY rh
+JOIN CAR_RENTAL_COMPANY_CAR cc
+ON rh.CAR_ID = cc.CAR_ID
+JOIN CAR_RENTAL_COMPANY_DISCOUNT_PLAN dp
+ON dp.CAR_TYPE = cc.CAR_TYPE
+WHERE cc.CAR_TYPE LIKE '트럭'
+ORDER BY 2 desc,1 desc
