@@ -1,0 +1,15 @@
+-- 코드를 입력하세요
+SELECT year(os.SALES_DATE) as YEAR, month(os.SALES_DATE)as MONTH, 
+count(distinct os.USER_ID) as 'PUCHASED_USERS', 
+ROUND(COUNT(distinct os.USER_ID) / 
+(SELECT COUNT(distinct USER_ID) 
+ FROM USER_INFO 
+ WHERE DATE_FORMAT(JOINED,'%Y') like '2021'),1) as PUCHASED_RATIO
+FROM USER_INFO ui
+JOIN ONLINE_SALE os
+ON ui.USER_ID = os.USER_ID
+WHERE DATE_FORMAT(ui.JOINED,'%Y') like '2021' 
+GROUP BY 1,2
+ORDER BY 1,2
+
+
