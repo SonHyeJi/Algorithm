@@ -8,3 +8,6 @@ IN (
     GROUP BY FOOD_TYPE
 )
 ORDER BY FOOD_TYPE desc
+
+
+ 
